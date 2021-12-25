@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: example-app
-          image: zaeimidocker/python:1.0.1
+          image: zaeimidocker/python:1.0.2
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -32,6 +32,3 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "500m"
-        env:
-            - name: FOO
-              value: "FOO Value From Base"
