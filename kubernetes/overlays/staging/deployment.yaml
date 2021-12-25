@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deploy
+  labels:
+    app: example-app
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: example-app-staging
+          env:
+            - name: FOO
+              value: "FOO Value From Staging"

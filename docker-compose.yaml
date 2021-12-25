@@ -4,6 +4,6 @@ services:
     build:
       context: .
     container_name: python
-    image: zaeimidocker/python:1.0.0
+    image: zaeimidocker/python:1.0.2
     ports:
       - 5000:5000
