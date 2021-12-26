@@ -10,6 +10,3 @@ spec:
     spec:
       containers:
         - name: example-app-staging
-          env:
-            - name: FOO
-              value: "FOO Value From Staging"
