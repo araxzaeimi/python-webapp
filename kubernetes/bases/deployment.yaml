@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: example-app
-          image: zaeimidocker/python:1.0.2
+          image: zaeimidocker/python:1.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
