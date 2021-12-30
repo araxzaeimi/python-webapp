@@ -6,29 +6,29 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mavencode-q1-2020-service
+  name: python-webapp-service
   namespace: dev
 spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8000
+    targetPort: 5000
   selector:
-    app: mavencode-q1-2020-app
+    app: python-webapp-app
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mavencode-q1-2020-app
-  name: mavencode-q1-2020-deploy
+    app: python-webapp-app
+  name: python-webapp-deploy
   namespace: dev
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: mavencode-q1-2020-app
+      app: python-webapp-app
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -37,11 +37,49 @@ spec:
   template:
     metadata:
       labels:
-        app: mavencode-q1-2020-app
+        app: python-webapp-app
     spec:
       containers:
-      - image: mavencode/website:1.0.1
+      - image: gcr.io/:main
         imagePullPolicy: Always
-        name: mavencode-q1-2020-app
+        name: python-webapp-app
         ports:
-        - containerPort: 8000
+        - containerPort: 5000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: dev
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: social
+            port:
+              number: 8000
+        path: /social
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: blog
+            port:
+              number: 8001
+        path: /blog
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: training
+            port:
+              number: 8002
+        path: /training
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: api
+            port:
+              number: 8003
+        path: /api
+        pathType: ImplementationSpecific
