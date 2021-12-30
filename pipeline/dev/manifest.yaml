@@ -40,7 +40,7 @@ spec:
         app: python-webapp-app
     spec:
       containers:
-      - image: gcr.io/:main
+      - image: gcr.io/mavencode-project/python-webapp-demo:7d339478715b5913e148cb666d0d21983fc6ba19
         imagePullPolicy: Always
         name: python-webapp-app
         ports:

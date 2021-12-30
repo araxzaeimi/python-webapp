@@ -6,5 +6,5 @@ resources:
 - namespace.yaml
 images:
 - name: python-webapp/webapp:1.0.0
-  newName: gcr.io/
-  newTag: main
+  newName: gcr.io/mavencode-project/python-webapp-demo
+  newTag: 7d339478715b5913e148cb666d0d21983fc6ba19
