@@ -17,6 +17,7 @@ env:
   GITHUB_REF: ${{ github.ref }}
   ## Define the image name
   IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.GCP_APP_NAME }}
+  IMAGE_TAG: $GITHUB_SHA
 
 jobs:
   setup-build-publish:
@@ -41,19 +42,15 @@ jobs:
       # Build the Docker image
       - name: Build
         run: |
-          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
-          echo $TAG
-          docker build -t "$IMAGE_NAME":"$TAG" \
+          docker build -t "$IMAGE_NAME":"$IMAGE_TAG" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" .
 
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
-          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
-          echo $TAG
-          docker push "$IMAGE_NAME":"$TAG"
-          docker tag "$IMAGE_NAME":"$TAG" "$IMAGE_NAME":latest
+          docker push "$IMAGE_NAME":"$IMAGE_TAG"
+          docker tag "$IMAGE_NAME":"$IMAGE_TAG" "$IMAGE_NAME":latest
           docker push "$IMAGE_NAME":latest
   deploy:
     name: Deploy
@@ -73,10 +70,8 @@ jobs:
       # Replacing image tag in k8s manifests
       - name: Update Kubernetes resources
         run: |
-          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
-          echo $TAG
           cd deploy/overlays/dev
-          kustomize edit set image python-webapp/webapp:1.0.0=$REGISTRY_HOSTNAME/$IMAGE:$TAG
+          kustomize edit set image python-webapp/webapp:1.0.0=$IMAGE_NAME:$IMAGE_TAG
           kustomize build . > ../../../pipeline/dev/manifest.yaml
 
       - name: Commit files
