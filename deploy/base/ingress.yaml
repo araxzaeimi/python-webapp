@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /social
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: social
+                port:
+                  number: 8000
+          - path: /blog
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: blog
+                port:
+                  number: 8001
+          - path: /training
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: training
+                port:
+                  number: 8002
+          - path: /api
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: api
+                port:
+                  number: 8003
