@@ -12,11 +12,11 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  ## Define the image name
-  IMAGE: python-webapp-demo
   REGISTRY_HOSTNAME: gcr.io
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
+  ## Define the image name
+  IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.GCP_APP_NAME }}
 
 jobs:
   setup-build-publish:
@@ -43,7 +43,7 @@ jobs:
         run: |
           export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
           echo $TAG
-          docker build -t "$REGISTRY_HOSTNAME"/"$IMAGE":"$TAG" \
+          docker build -t "$IMAGE_NAME":"$TAG" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" .
 
@@ -52,9 +52,9 @@ jobs:
         run: |-
           export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
           echo $TAG
-          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_ID"/"$IMAGE":"$TAG"
-          docker tag "$REGISTRY_HOSTNAME"/"$PROJECT_ID"/"$IMAGE":"$TAG" "$REGISTRY_HOSTNAME"/"$IMAGE":latest
-          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_ID"/"$IMAGE":latest
+          docker push "$IMAGE_NAME":"$TAG"
+          docker tag "$IMAGE_NAME":"$TAG" "$IMAGE_NAME":latest
+          docker push "$IMAGE_NAME":latest
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
