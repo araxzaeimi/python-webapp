@@ -19,7 +19,7 @@ spec:
                 name: python-webapp-service
                 port:
                   number: 5000
-          - path: /service2
+          - path: /service2/*
             pathType: ImplementationSpecific
             backend:
               service:
