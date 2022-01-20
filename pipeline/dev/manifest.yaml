@@ -54,7 +54,7 @@ spec:
         app: python-webapp-app
     spec:
       containers:
-      - image: gcr.io/mavencode-project/python-webapp-demo:4fcc2d2e39af02a32c10176a516c2e256f4816a6
+      - image: gcr.io/mavencode-project/python-webapp-demo:d0d8da53ab4a79c0ac36712143fbce9171869e78
         imagePullPolicy: Always
         name: python-webapp-app
         ports:
@@ -83,7 +83,7 @@ spec:
         app: python-webapp-app-2
     spec:
       containers:
-      - image: gcr.io/mavencode-project/python-webapp-demo_2:4fcc2d2e39af02a32c10176a516c2e256f4816a6
+      - image: gcr.io/mavencode-project/python-webapp-demo_2:d0d8da53ab4a79c0ac36712143fbce9171869e78
         imagePullPolicy: Always
         name: python-webapp-app-2
         ports:
@@ -125,5 +125,5 @@ spec:
             name: python-webapp-service-2
             port:
               number: 6000
-        path: /service2
+        path: /service2/*
         pathType: ImplementationSpecific
