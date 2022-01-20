@@ -17,6 +17,7 @@ env:
   GITHUB_REF: ${{ github.ref }}
   ## Define the image name
   IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.GCP_APP_NAME }}
+  IMAGE_NAME_2: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.GCP_APP_NAME }}_2
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -40,18 +41,32 @@ jobs:
           gcloud --quiet auth configure-docker
 
       # Build the Docker image
-      - name: Build
+      - name: Build App 1
         run: |
           docker build -t "$IMAGE_NAME":"$IMAGE_TAG" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
-            --build-arg GITHUB_REF="$GITHUB_REF" .
+            --build-arg GITHUB_REF="$GITHUB_REF" -f dockerfile_server1 .
 
       # Push the Docker image to Google Container Registry
-      - name: Publish
+      - name: Publish App 1
         run: |-
           docker push "$IMAGE_NAME":"$IMAGE_TAG"
           docker tag "$IMAGE_NAME":"$IMAGE_TAG" "$IMAGE_NAME":latest
           docker push "$IMAGE_NAME":latest
+
+      # Build the Docker image
+      - name: Build App 2
+        run: |
+          docker build -t "$IMAGE_NAME_2":"$IMAGE_TAG" \
+            --build-arg GITHUB_SHA="$GITHUB_SHA" \
+            --build-arg GITHUB_REF="$GITHUB_REF" -f dockerfile_server2 .
+
+      # Push the Docker image to Google Container Registry
+      - name: Publish App 2
+        run: |-
+          docker push "$IMAGE_NAME_2":"$IMAGE_TAG"
+          docker tag "$IMAGE_NAME_2":"$IMAGE_TAG" "$IMAGE_NAME_2":latest
+          docker push "$IMAGE_NAME_2":latest
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -72,6 +87,7 @@ jobs:
         run: |
           cd deploy/overlays/dev
           kustomize edit set image python-webapp/webapp:1.0.0=$IMAGE_NAME:$IMAGE_TAG
+          kustomize edit set image python-webapp-2/webapp:1.0.0=$IMAGE_NAME_2:$IMAGE_TAG
           kustomize build . > ../../../pipeline/dev/manifest.yaml
 
       - name: Commit files
