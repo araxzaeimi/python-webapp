@@ -2,5 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: default
 resources:
-  - ../../base
-  - namespace.yaml
+- ../../base
+- namespace.yaml
+images:
+- name: python-webapp/webapp:1.0.0
+  newName: gcr.io/mavencode-project/python-webapp-demo
+  newTag: 7e7e71fa6a9ad89c8e808906bcbfb936d0fac9ea
