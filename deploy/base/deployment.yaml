@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: python-webapp-app
-          image: python-webapp/webapp:1.0.0
+          image: gcr.io/mavencode-project/python-webapp-demo:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000

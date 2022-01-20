@@ -1,36 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: python-webapp-ingress
+  annotations:
+    # If the class annotation is not specified it defaults to "gce".
+    kubernetes.io/ingress.class: "gce"
+    networking.gke.io/managed-certificates: managed-cert
+    kubernetes.io/ingress.global-static-ip-name: python-webapp-ip-static
 spec:
   rules:
-    - http:
+    - host: techarax.com
+      http:
         paths:
-          - path: /social
+          - path: /*
             pathType: ImplementationSpecific
             backend:
               service:
-                name: social
+                name: python-webapp-service
                 port:
-                  number: 8000
-          - path: /blog
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: blog
-                port:
-                  number: 8001
-          - path: /training
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: training
-                port:
-                  number: 8002
-          - path: /api
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: api
-                port:
-                  number: 8003
+                  number: 5000
