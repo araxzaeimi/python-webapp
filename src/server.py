@@ -15,4 +15,4 @@ def hello():
 
 @app.route('/about/')
 def about():
-    return '<h3>This is the about page.</h3>'
+    return '<h1>This is the about page.</h1>'

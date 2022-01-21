@@ -8,6 +8,11 @@ app = Flask(__name__)
 #     return f'Hello World! Env Value: {foo}'
 
 
-@app.route('/')
+@app.route('/v2/')
 def hello():
     return '<h1>Hello, World! This is the 2nd service.</h1>'
+
+
+@app.route('/v2/about')
+def about():
+    return '<h1>About page from 2nd service.</h1>'
