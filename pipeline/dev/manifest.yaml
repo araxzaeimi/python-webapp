@@ -24,9 +24,9 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 6000
+  - port: 5000
     protocol: TCP
-    targetPort: 6000
+    targetPort: 5000
   selector:
     app: python-webapp-app-2
   type: NodePort
@@ -54,7 +54,7 @@ spec:
         app: python-webapp-app
     spec:
       containers:
-      - image: gcr.io/mavencode-project/python-webapp-demo:d0d8da53ab4a79c0ac36712143fbce9171869e78
+      - image: gcr.io/mavencode-project/python-webapp-demo:47aa79432bddada754c65ae2e55956db3e2535c6
         imagePullPolicy: Always
         name: python-webapp-app
         ports:
@@ -83,11 +83,11 @@ spec:
         app: python-webapp-app-2
     spec:
       containers:
-      - image: gcr.io/mavencode-project/python-webapp-demo_2:d0d8da53ab4a79c0ac36712143fbce9171869e78
+      - image: gcr.io/mavencode-project/python-webapp-demo_2:47aa79432bddada754c65ae2e55956db3e2535c6
         imagePullPolicy: Always
         name: python-webapp-app-2
         ports:
-        - containerPort: 6000
+        - containerPort: 5000
 ---
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
@@ -124,6 +124,6 @@ spec:
           service:
             name: python-webapp-service-2
             port:
-              number: 6000
-        path: /service2/*
+              number: 5000
+        path: /v2/*
         pathType: ImplementationSpecific

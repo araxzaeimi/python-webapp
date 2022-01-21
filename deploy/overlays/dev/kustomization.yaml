@@ -7,7 +7,7 @@ resources:
 images:
 - name: python-webapp-2/webapp:1.0.0
   newName: gcr.io/mavencode-project/python-webapp-demo_2
-  newTag: d0d8da53ab4a79c0ac36712143fbce9171869e78
+  newTag: 47aa79432bddada754c65ae2e55956db3e2535c6
 - name: python-webapp/webapp:1.0.0
   newName: gcr.io/mavencode-project/python-webapp-demo
-  newTag: d0d8da53ab4a79c0ac36712143fbce9171869e78
+  newTag: 47aa79432bddada754c65ae2e55956db3e2535c6
